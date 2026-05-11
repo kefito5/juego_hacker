@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ghost in the Code — CTF</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;700&family=Orbitron:wght@700;900&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <div class="scanlines"></div>
+  <div class="bg-matrix" id="bg-matrix"></div>
+
+  <!-- ── PANTALLA DE INICIO ── -->
+  <div class="screen" id="screen-intro">
+    <div class="intro-content">
+      <div class="ghost-logo">👻</div>
+      <h1 class="game-title">GHOST IN THE CODE</h1>
+      <p class="game-subtitle">// Capture The Flag — Security Challenge</p>
+      <div class="intro-desc">
+        <p>Se ha detectado una brecha en los sistemas.<br>
+        Tu misión: <span class="hl">encontrar las vulnerabilidades</span> en cada bloque de código antes de que el tiempo se acabe.</p>
+        <p class="muted">5 niveles · Dificultad progresiva · Sin segunda oportunidad</p>
+      </div>
+      <button class="btn-start" id="btn-start">
+        <span>INICIAR MISIÓN</span>
+        <span class="btn-icon">▶</span>
+      </button>
+      <p class="credit muted">by kefito5 · github.com/kefito5</p>
+    </div>
+  </div>
+
+  <!-- ── PANTALLA DE JUEGO ── -->
+  <div class="screen hidden" id="screen-game">
+
+    <!-- Header HUD -->
+    <header class="hud">
+      <div class="hud-left">
+        <span class="hud-label">NIVEL</span>
+        <span class="hud-value" id="hud-level">01 / 05</span>
+      </div>
+      <div class="hud-center">
+        <span class="hud-label">MISIÓN</span>
+        <span class="hud-title" id="hud-mission">—</span>
+      </div>
+      <div class="hud-right">
+        <span class="hud-label">TIEMPO</span>
+        <span class="hud-timer" id="hud-timer">60</span>
+        <span class="hud-label">s</span>
+      </div>
+    </header>
+
+    <!-- Barra de progreso de niveles -->
+    <div class="level-track">
+      <div class="level-dot active" data-lvl="0"></div>
+      <div class="level-dot" data-lvl="1"></div>
+      <div class="level-dot" data-lvl="2"></div>
+      <div class="level-dot" data-lvl="3"></div>
+      <div class="level-dot" data-lvl="4"></div>
+    </div>
+
+    <!-- Contenido principal -->
+    <main class="game-main">
+
+      <!-- Panel izquierdo: código -->
+      <section class="panel panel-code">
+        <div class="panel-header">
+          <span class="panel-tag">// code_review.js</span>
+          <span class="panel-hint" id="panel-hint">Haz clic en la línea vulnerable</span>
+        </div>
+        <div class="code-block" id="code-block" role="list" aria-label="Código a revisar"></div>
+      </section>
+
+      <!-- Panel derecho: info -->
+      <aside class="panel panel-info">
+        <div class="panel-header">
+          <span class="panel-tag">// mission_brief</span>
+        </div>
+
+        <div class="info-body">
+          <div class="brief-block">
+            <p class="brief-label">OBJETIVO</p>
+            <p class="brief-text" id="brief-text">—</p>
+          </div>
+
+          <div class="brief-block">
+            <p class="brief-label">PISTA</p>
+            <p class="brief-hint" id="brief-hint">—</p>
+          </div>
+
+          <div class="brief-block">
+            <p class="brief-label">INTENTOS</p>
+            <div class="lives" id="lives-display">
+              <span class="life">●</span>
+              <span class="life">●</span>
+              <span class="life">●</span>
+            </div>
+          </div>
+
+          <div class="score-block">
+            <p class="brief-label">SCORE</p>
+            <p class="score-val" id="score-val">0</p>
+          </div>
+        </div>
+
+        <!-- Feedback -->
+        <div class="feedback" id="feedback"></div>
+      </aside>
+
+    </main>
+  </div>
+
+  <!-- ── PANTALLA DE VICTORIA ── -->
+  <div class="screen hidden" id="screen-win">
+    <div class="end-content">
+      <div class="end-icon win-icon">🏆</div>
+      <h2 class="end-title win">MISIÓN COMPLETADA</h2>
+      <p class="end-sub">Acceso root concedido. Sistemas asegurados.</p>
+      <div class="final-score-box">
+        <span class="final-label">SCORE FINAL</span>
+        <span class="final-score" id="final-score">0</span>
+      </div>
+      <div class="end-stats" id="end-stats"></div>
+      <button class="btn-start" id="btn-replay-win">JUGAR DE NUEVO</button>
+    </div>
+  </div>
+
+  <!-- ── PANTALLA DE DERROTA ── -->
+  <div class="screen hidden" id="screen-lose">
+    <div class="end-content">
+      <div class="end-icon">💀</div>
+      <h2 class="end-title lose">SISTEMA COMPROMETIDO</h2>
+      <p class="end-sub" id="lose-reason">Sin vidas restantes. El ghost escapó.</p>
+      <div class="final-score-box">
+        <span class="final-label">LLEGASTE AL NIVEL</span>
+        <span class="final-score" id="lose-level">—</span>
+      </div>
+      <button class="btn-start" id="btn-replay-lose">REINTENTAR</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
